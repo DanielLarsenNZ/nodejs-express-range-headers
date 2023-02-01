@@ -18,7 +18,10 @@ Expected response should include these headers:
 HTTP/1.1 206 Partial Content            # Response is ranged
 Cache-Control: public, max-age=604800   # Cache for 7 days
 Content-Encoding: gzip                  # Response is compressed
+Content-Range: bytes 0-1024/102399      # Partial response, only the first 1025 bytes are returned.
 ```
+
+The actual body data size will be less than 1025 bytes; strictly this is a malformed response that may cause issues with some reverse-proxies and clients.
 
 ### Accept ranges disabled
 
@@ -56,6 +59,8 @@ Cache-Control: public, max-age=604800   # Cache for 7 days
 Content-Encoding: gzip                  # Response is compressed
 X-Cache: TCP_HIT                        # Front Door is serving from cache
 ```
+
+Front Door appears to be "de-ranging" the request somehow. 
 
 ### Accept ranges disabled
 
