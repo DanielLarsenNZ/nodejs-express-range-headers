@@ -1,0 +1,19 @@
+name: docker_push
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: publish
+        run: |
+          echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login -u daniellarsennz --password-stdin
+          docker build . -t "daniellarsennz/nodejs-express-range-headers:latest"
+          docker push "daniellarsennz/nodejs-express-range-headers:latest"
+        shell: bash
