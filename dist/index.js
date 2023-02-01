@@ -38,15 +38,13 @@ app.enable('trust proxy');
 app.set('etag', 'strong');
 app.use((0, compression_1.default)());
 // health check
-app.use('/health', (_req, res) => res.send(`👍 ${process.env.ENVIRONMENT_NAME} ${process.env.COMMIT_SHA}`));
+app.use('/health', (_req, res) => res.send(`👍 Ok ${process.env.WEBSITE_INSTANCE_ID} ${process.env.COMPUTERNAME} ${process.env.HOSTNAME}`));
 // Serve static files
 const uiRoot = path.resolve(__dirname, `./static`);
 for (const route of ['/', '/images', '/docs']) {
     app.use(route, (0, serve_static_1.default)(uiRoot, {
-        acceptRanges: true,
-        setHeaders: /* istanbul ignore next */ (res) => {
-            res.setHeader('Cache-Control', 'public, max-age=604800');
-        },
+        acceptRanges: false,
+        maxAge: 604800000 // milliseconds
     }));
 }
 app.listen(port, () => {

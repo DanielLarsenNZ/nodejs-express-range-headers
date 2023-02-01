@@ -15,7 +15,7 @@ app.set('etag', 'strong');
 app.use(compression());
 
 // health check
-app.use('/health', (_req, res) => res.send(`👍 ${process.env.ENVIRONMENT_NAME} ${process.env.COMMIT_SHA}`));
+app.use('/health', (_req, res) => res.send(`👍 Ok ${process.env.WEBSITE_INSTANCE_ID} ${process.env.COMPUTERNAME} ${process.env.HOSTNAME}`));
 
 // Serve static files
 const uiRoot = path.resolve(__dirname, `./static`);
@@ -23,10 +23,8 @@ for (const route of ['/', '/images', '/docs']) {
   app.use(
     route,
     serveStatic(uiRoot, {
-      acceptRanges: true,
-      setHeaders: /* istanbul ignore next */ (res: ServerResponse) => {
-        res.setHeader('Cache-Control', 'public, max-age=604800');
-      },
+      acceptRanges: false,
+      maxAge: 604800000 // milliseconds
     } as ServeStaticOptions),
   );
 }
@@ -34,4 +32,3 @@ for (const route of ['/', '/images', '/docs']) {
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
-
