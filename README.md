@@ -54,7 +54,7 @@ Expected response should include these headers:
 HTTP/1.1 200 OK                         # Response is not ranged
 Cache-Control: public, max-age=604800   # Cache for 7 days
 Content-Encoding: gzip                  # Response is compressed
- X-Cache: TCP_HIT                       # Front Door is serving from cache
+X-Cache: TCP_HIT                        # Front Door is serving from cache
 ```
 
 ### Accept ranges disabled
@@ -71,7 +71,7 @@ Expected response should include these headers:
 HTTP/1.1 200 OK                         # Response is not ranged
 Cache-Control: public, max-age=604800   # Cache for 7 days
 Content-Encoding: gzip                  # Response is compressed
- X-Cache: TCP_HIT                       # Front Door is serving from cache
+X-Cache: TCP_HIT                        # Front Door is serving from cache
 ```
 
 ## Links
