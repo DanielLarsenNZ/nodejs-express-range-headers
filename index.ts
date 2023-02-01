@@ -3,7 +3,6 @@ import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import serveStatic, { ServeStaticOptions } from 'serve-static';
-import { ServerResponse } from 'http';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -17,6 +16,14 @@ app.use(compression());
 // health check
 app.use('/health', (_req, res) => res.send(`👍 Ok ${process.env.WEBSITE_INSTANCE_ID} ${process.env.COMPUTERNAME} ${process.env.HOSTNAME}`));
 
+app.use(
+  '/ranged',
+  serveStatic(path.resolve(__dirname, `./ranged`), {
+    acceptRanges: true,
+    maxAge: '7d'
+  } as ServeStaticOptions),
+);
+
 // Serve static files
 const uiRoot = path.resolve(__dirname, `./static`);
 for (const route of ['/', '/images', '/docs']) {
@@ -24,7 +31,7 @@ for (const route of ['/', '/images', '/docs']) {
     route,
     serveStatic(uiRoot, {
       acceptRanges: false,
-      maxAge: 604800000 // milliseconds
+      maxAge: '7d'
     } as ServeStaticOptions),
   );
 }
