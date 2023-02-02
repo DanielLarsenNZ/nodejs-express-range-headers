@@ -9,7 +9,7 @@ Origin is a Linux App Service with a custom Nodejs container, containing source 
 Use `curl` on Linux bash to make a ranged request to an endpoint with accept-ranges enabled and compression enabled.
 
 ```bash
-curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://nodejsexpress-aue.azurewebsites.net/ranged/docs/100kb.txt
+curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://nodejsexpress-aue.azurewebsites.net/ranged/docs/ranged100kb.txt
 ```
 
 Expected response should include these headers:
@@ -48,7 +48,7 @@ Front Door endpoint in front of Origin, with caching and compression enabled on 
 Use `curl` on Linux bash to make a ranged request to an endpoint with accept-ranges enabled and compression enabled.
 
 ```bash
-curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://helloafd-huc8gza6dpcrdxgn.z01.azurefd.net/ranged/docs/100kb.txt
+curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://helloafd-huc8gza6dpcrdxgn.z01.azurefd.net/ranged/docs/ranged100kb.txt
 ```
 
 Expected response should include these headers:
