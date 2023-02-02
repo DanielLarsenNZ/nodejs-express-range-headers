@@ -45,7 +45,7 @@ app.use('/ranged', (0, serve_static_1.default)(path.resolve(__dirname, `./ranged
     maxAge: '7d',
     setHeaders: (res) => res.setHeader('X-EXPRESS-ROUTE', '/ranged')
 }));
-// Serve static files
+// Serve static files (ranges disabled)
 const uiRoot = path.resolve(__dirname, `./static`);
 for (const route of ['/', '/images', '/docs']) {
     app.use(route, (0, serve_static_1.default)(uiRoot, {

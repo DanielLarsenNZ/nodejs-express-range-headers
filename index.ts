@@ -27,7 +27,7 @@ app.use(
   } as ServeStaticOptions),
 );
 
-// Serve static files
+// Serve static files (ranges disabled)
 const uiRoot = path.resolve(__dirname, `./static`);
 for (const route of ['/', '/images', '/docs']) {
   app.use(
