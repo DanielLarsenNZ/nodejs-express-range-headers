@@ -39,16 +39,19 @@ app.set('etag', 'strong');
 app.use((0, compression_1.default)());
 // health check
 app.use('/health', (_req, res) => res.send(`👍 Ok ${process.env.WEBSITE_INSTANCE_ID} ${process.env.COMPUTERNAME} ${process.env.HOSTNAME}`));
+// Serve /ranged requests ranged responses
 app.use('/ranged', (0, serve_static_1.default)(path.resolve(__dirname, `./ranged`), {
     acceptRanges: true,
-    maxAge: '7d'
+    maxAge: '7d',
+    setHeaders: (res) => res.setHeader('X-EXPRESS-ROUTE', '/ranged')
 }));
 // Serve static files
 const uiRoot = path.resolve(__dirname, `./static`);
 for (const route of ['/', '/images', '/docs']) {
     app.use(route, (0, serve_static_1.default)(uiRoot, {
         acceptRanges: false,
-        maxAge: '7d'
+        maxAge: '7d',
+        setHeaders: (res) => res.setHeader('X-EXPRESS-ROUTE', route)
     }));
 }
 app.listen(port, () => {
