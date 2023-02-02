@@ -79,5 +79,11 @@ Content-Encoding: gzip                  # Response is compressed
 X-Cache: TCP_HIT                        # Front Door is serving from cache
 ```
 
-## Links
+## Links & references
 
+* [Stricter protocol implementation policies in Azure Front Door for both HTTP/HTTPS](https://app.azure.com/h/YS1Q-B88/e67fe2) (Azure Service Health Advisory)
+* [RFC 7233: Hypertext Transfer Protocol (HTTP/1.1): Range Requests](https://www.rfc-editor.org/rfc/rfc7233) (IETF)
+* [Content-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) (MDN)
+* [Nodejs/Express/Compression: Can't buffer entire file to calculate compressed content length](https://github.com/expressjs/compression/issues/52#issuecomment-138698947) (GitHub issue)
+* [100kb in text](https://gist.githubusercontent.com/aal89/0e8d16a81a72d420aae9806ee87e3399/raw/3b0422de873be9b93f1cb85ec481d94f1bb238b0/100kb.txt) (GitHub Gist)
+* [Express serve-static middleware docs](https://expressjs.com/en/resources/middleware/serve-static.html)
