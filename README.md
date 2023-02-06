@@ -1,6 +1,26 @@
 # Understanding Range headers in Nodejs Express
 
-## Testing Origin
+This project contains `Nodejs/express` code to create a server that simulates ranged and non-ranged responses. It also includes Mocha tests to perform basic RFC checks on an origin URL.
+
+## Build and run the server
+
+> Latest Nodejs and NPM is required.
+
+```bash
+npm install
+npm run start
+```
+
+## Run Mocha tests
+
+Modify the `originUrl` variable in `tests.js` to specify the origin URL should would like to test.
+
+```bash
+npm install
+npm run test
+```
+
+## Manually testing origin
 
 Origin is a Linux App Service with a custom Nodejs container, containing source code from this repo.
 
@@ -39,7 +59,7 @@ Cache-Control: public, max-age=604800   # Cache for 7 days
 Content-Encoding: gzip                  # Response is compressed
 ```
 
-## Testing Front Door
+## Manually testing Front Door
 
 Front Door endpoint in front of Origin, with caching and compression enabled on the route.
 
