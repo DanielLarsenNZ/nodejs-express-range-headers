@@ -2,3 +2,4 @@ node_modules
 _work
 100kb.txt
 tests/100kb.txt
+mochawesome-report
