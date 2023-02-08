@@ -13,8 +13,14 @@ npm run start
 
 ## Run Mocha tests
 
-Modify the `originUrl` variable in `tests.js` to specify the origin URL should would like to test.
+Modify the `originUrl` variable in `tests.js` to specify the origin URL to test.
 
+```javascript
+// change this hardcoded value in tests.js.
+const originUrl = 'https://nodejsexpress-aue.azurewebsites.net/ranged/docs/ranged100kb.txt';
+```
+
+NPM install and run the tests
 ```bash
 npm install
 npm run test
@@ -29,7 +35,7 @@ Origin is a Linux App Service with a custom Nodejs container, containing source 
 Use `curl` on Linux bash to make a ranged request to an endpoint with accept-ranges enabled and compression enabled.
 
 ```bash
-curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://nodejsexpress-aue.azurewebsites.net/ranged/docs/ranged100kb.txt
+curl -v -o ./100kb.txt --http2 --range "0-1023" -H "Accept-Encoding: gzip" https://nodejsexpress-aue.azurewebsites.net/ranged/docs/ranged100kb.txt
 ```
 
 Expected response should include these headers:
@@ -38,17 +44,17 @@ Expected response should include these headers:
 HTTP/1.1 206 Partial Content            # Response is ranged
 Cache-Control: public, max-age=604800   # Cache for 7 days
 Content-Encoding: gzip                  # Response is compressed
-Content-Range: bytes 0-1024/102399      # Partial response, only the first 1025 bytes are returned.
+Content-Range: bytes 0-1023/102399      # Partial response, only the first 1024 bytes are returned.
 ```
 
-The actual body data size will be less than 1025 bytes; strictly this is a malformed response that may cause issues with some reverse-proxies and clients.
+The actual body data size will be less than 1024 bytes; strictly this is a malformed response that may cause issues with some reverse-proxies and clients.
 
 ### Accept ranges disabled
 
 Use `curl` on Linux bash to make a ranged request to an endpoint with accept-ranges disabled and compression enabled.
 
 ```bash
-curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://nodejsexpress-aue.azurewebsites.net/docs/100kb.txt
+curl -v -o ./100kb.txt --http2 --range "0-1023" -H "Accept-Encoding: gzip" https://nodejsexpress-aue.azurewebsites.net/docs/100kb.txt
 ```
 
 Expected response should include these headers:
@@ -68,7 +74,7 @@ Front Door endpoint in front of Origin, with caching and compression enabled on 
 Use `curl` on Linux bash to make a ranged request to an endpoint with accept-ranges enabled and compression enabled.
 
 ```bash
-curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://helloafd-huc8gza6dpcrdxgn.z01.azurefd.net/ranged/docs/ranged100kb.txt
+curl -v -o ./100kb.txt --http2 --range "0-1023" -H "Accept-Encoding: gzip" https://helloafd-huc8gza6dpcrdxgn.z01.azurefd.net/ranged/docs/ranged100kb.txt
 ```
 
 Expected response should include these headers:
@@ -87,7 +93,7 @@ Front Door appears to be "de-ranging" the request somehow.
 Use `curl` on Linux bash to make a ranged request to an endpoint with accept-ranges disabled and compression enabled.
 
 ```bash
-curl -v -o ./100kb.txt --http2 --range "0-1024" -H "Accept-Encoding: gzip" https://helloafd-huc8gza6dpcrdxgn.z01.azurefd.net/docs/100kb.txt
+curl -v -o ./100kb.txt --http2 --range "0-1023" -H "Accept-Encoding: gzip" https://helloafd-huc8gza6dpcrdxgn.z01.azurefd.net/docs/100kb.txt
 ```
 
 Expected response should include these headers:
