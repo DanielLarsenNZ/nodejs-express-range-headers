@@ -16,6 +16,8 @@ In December Microsoft sent a [Service Health advisory][YS1Q-B88] to Azure Front 
 
 You can [read the full Service Health advisory here][YS1Q-B88] (requires Azure Portal login to a subscription with Azure Front Door deployed).
 
+The stricter protocol implementation policy changes are being gradually deployed to Azure Front Door (AFD) PoPs (point of presence infrastructure nodes). When a request is made to an origin that does not respond properly to range requests, via an upgraded AFD PoP, the observed behaviour is that the AFD PoP will wait for approximately 75 seconds for the correct response (the correct amount of data as specified in the response header to be returned). When the AFD PoP fails to receive more data from the origin it times-out and returns all data it has received as an HTTP `206 Partial` response. The response in this case will never be cached. This may also cause an HTTP 499 error to appear in AFD logs.
+
 ## Advice & recommendations
 
 Accepting range requests is optional. Origin servers should be configured to either accept range requests (and respond correctly) or ignore range request headers and respond with a full (200 Ok) response. 
@@ -28,7 +30,7 @@ It looks like compression and range requests are incompatible in the `nodejs/exp
 
 The solution for Nodejs/express servers is to either support range requests, or compression (not both at the same time).
 
-* **Compression**: Best performance for scripts, stylesheets, JSON and HTML files, any files that compress well. The express compression module will not compress files that don't benefit from compression (like JPEG files which are already compressed).
+* **Compression**: Best performance for scripts, stylesheets, JSON and HTML files, any files that compress well. The express compression module will not compress files that don't benefit from (Gzip) compression (like JPEG files which are already compressed).
 * **Ranges**: Good for very large media files that need to seek or be pre-fetched in shards. Most media formats (like MPEG) are already compressed.
 
 ## Getting started with the code in the repo
