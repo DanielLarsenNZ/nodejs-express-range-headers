@@ -1,19 +1,17 @@
 const https = require('https');
+const http = require('http');
 const chai = require('chai');
 const should = chai.should();
 
 // Paste the URL of the origin you would like to test here
-const originUrl = 'https://nodejsexpress-aue.azurewebsites.net/ranged/docs/ranged100kb.txt';
+const originUrl = 'http://localhost:8000/ranged/docs/ranged100kb.txt';
 
 describe('RFC 7233', function () {
     describe('Partial request that accepts gzip encoding', async function () {
         
         let output = {};
-        let url = new URL(originUrl);
 
         const options = {
-            host: url.host,
-            path: url.pathname + url.search,
             method: 'GET',
             headers: {
                 'range': 'bytes=0-1023',
@@ -22,8 +20,11 @@ describe('RFC 7233', function () {
             }
         };
 
+        it('should run without error', async function () {
+            output = await test(originUrl, options);
+        });
+
         it('should return 206 or 200 or 416', async function () {
-            output = await test(options);
             console.log(`Response status code = ${output.statusCode}`);
             output.statusCode.should.satisfy((statusCode) => statusCode === 200 || statusCode === 206 || statusCode === 416);
         });
@@ -64,9 +65,11 @@ describe('RFC 7233', function () {
 });
 
 
-async function test(options) {
+async function test(originUrl, options) {
     let p = new Promise((resolve, reject) => {
-        const request = https.request(options, (res) => {
+        let url = new URL(originUrl);
+        let h = url.protocol === 'https:' ? https : http;
+        const request = h.request(originUrl, options, (res) => {
             let output = {
                 dataLength: 0,
                 statusCode: 0,
