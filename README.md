@@ -14,7 +14,7 @@ In December Microsoft sent a [Service Health advisory][YS1Q-B88] to Azure Front 
 <p>For example, suppose an uncompressed resource on the origin is 100 KB; but with gzip compression, it's only 20 KB. Suppose the origin receives a range request for "bytes=0-1048575" (that is, the first 1 MB) and suppose that the header “Accept-Encoding: gzip” is also present. If the origin chooses to return a range response (status code 206) and it chooses to compress the resource (“Content-Encoding: gzip”), it should set the value of the Content-Range to “bytes 0-20479/20480”, indicating that the response contains 20 KB of data (not 100 KB of data).</p>
 </em></div>
 
-You can [read the full Service Health advisory here][YS1Q-B88] (requires Azure Portal login to a subscription with Azure Front Door deployed).
+> [Read the full Service Health advisory here][YS1Q-B88] (requires Azure Portal login to a subscription with Azure Front Door deployed).
 
 The stricter protocol implementation policy changes are being gradually deployed to Azure Front Door (AFD) PoPs (point of presence infrastructure nodes). When a request is made to an origin that does not respond properly to range requests, via an upgraded AFD PoP, the observed behaviour is that the AFD PoP will wait for approximately 75 seconds for the correct response (the correct amount of data as specified in the response header to be returned). When the AFD PoP fails to receive more data from the origin it times-out and returns all data it has received as an HTTP `206 Partial` response. The response in this case will never be cached. This may also cause an HTTP 499 error to appear in AFD logs.
 
